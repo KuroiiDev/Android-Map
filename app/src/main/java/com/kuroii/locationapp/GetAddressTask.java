@@ -45,6 +45,11 @@ public class GetAddressTask extends AsyncTask<Location, Void, String> {
         return result;
     }
 
+    @Override
+    protected void onPostExecute(String s) {
+        mListener.onTaskCompleted(s);
+    }
+
     interface OnTaskCompleted {
         void onTaskCompleted(String result);
     }

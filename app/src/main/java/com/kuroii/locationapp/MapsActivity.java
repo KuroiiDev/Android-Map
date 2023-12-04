@@ -24,7 +24,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.kuroii.locationapp.databinding.ActivityMapsBinding;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GetAddressTask.OnTaskCompleted {
 
     private GoogleMap mMap;
     private TextView locationTextView;
@@ -86,7 +86,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                         .title("LAT: "+lat+" - LNG: "+lng));
                                 float zoom = 15;
                                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc,zoom));
-                                locationTextView.setText("LAT: "+lat+" - LNG: "+lng);
+                                new GetAddressTask(MapsActivity.this, MapsActivity.this).execute(location);
                             }
                         }
                     }, null);
@@ -110,5 +110,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     getLocation();
                 }
         }
+    }
+
+    @Override
+    public void onTaskCompleted(String result){
+        locationTextView.setText("Alamat: "+result);
     }
 }
